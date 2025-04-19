@@ -1,0 +1,23 @@
+
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="32" height="32" rx="6" fill="#1D4ED8" />
+  
+  <!-- Globe -->
+  <circle cx="16" cy="16" r="10" fill="white" />
+  
+  <!-- Latitude lines -->
+  <path d="M6 16H26" stroke="#1D4ED8" strokeWidth="1" strokeLinecap="round" />
+  <path d="M8 11H24" stroke="#1D4ED8" strokeWidth="1" strokeLinecap="round" />
+  <path d="M8 21H24" stroke="#1D4ED8" strokeWidth="1" strokeLinecap="round" />
+  
+  <!-- Longitude lines -->
+  <path d="M16 6V26" stroke="#1D4ED8" strokeWidth="1" strokeLinecap="round" />
+  <path d="M11 8V24" stroke="#1D4ED8" strokeWidth="1" strokeLinecap="round" />
+  <path d="M21 8V24" stroke="#1D4ED8" strokeWidth="1" strokeLinecap="round" />
+  
+  <!-- Airplane -->
+  <path d="M24 9L21 12L24 9Z" fill="#1D4ED8" />
+  <path d="M24 9L21 12" stroke="#1D4ED8" strokeWidth="1.5" strokeLinecap="round" />
+  <path d="M22 7L19 12L22 10.5L25 12L22 7Z" fill="#1D4ED8" stroke="#1D4ED8" strokeWidth="0.5" />
+</svg>

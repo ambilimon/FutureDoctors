@@ -1,0 +1,41 @@
+export interface University {
+  id: string | number;
+  name: string;
+  country: string;
+  city: string;
+  tuitionFee?: {
+    amount: number;
+    currency: string;
+  };
+  currency?: string;
+  rating?: number;
+  category?: string;
+  duration: string;
+  language: string;
+  recognition: string[];
+  facilities: string[];
+  image: string;
+  hostelAvailable: boolean;
+  intake: string[];
+  established?: string;
+  description?: string;
+  ranking?: string;
+  totalStudents?: string;
+  indianStudents?: string;
+  coursesOffered?: string[];
+  location?: string;
+  features?: string[];
+  longDescription?: string;
+  establishedYear?: string;
+  studentCount?: string;
+  facultyCount?: string;
+  hospitalAffiliations?: string[];
+  courses?: { name: string; duration: string; fees: string; }[];
+  admissionProcess?: string[];
+  eligibility?: string[];
+  advantages?: string[];
+  documents?: string[];
+  scholarships?: string[];
+  hostelInfo?: string;
+  indianFoodAvailability?: string;
+}
