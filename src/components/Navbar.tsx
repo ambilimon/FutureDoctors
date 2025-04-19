@@ -68,19 +68,20 @@ const Navbar = () => {
   const handleNavClick = () => setIsOpen(false);
 
   return (
-    <>
-      <div className="h-[72px] w-full" /> {/* Spacer to prevent content jump */}
+    <div className="relative">
+      {/* Spacer div with higher z-index */}
+      <div className="h-[72px] w-full relative z-[49]" />
+      
       <header
         className={cn(
           "fixed top-0 left-0 right-0 w-full transition-all duration-200 ease-out backdrop-blur-sm",
-          "will-change-transform transform-gpu", // Hardware acceleration
           scrolled
-            ? "bg-white/95 shadow-md"
-            : "bg-white/50",
-          "z-[100]" // Higher z-index
+            ? "bg-white shadow-md"
+            : "bg-white/95",
+          "z-[50]" // Ensure navbar is above other content but below mobile menu
         )}
       >
-        <div className="container px-4 mx-auto h-[72px] flex justify-between items-center">
+        <div className="container mx-auto px-4 h-[72px] flex justify-between items-center relative">
           <Logo variant={scrolled ? "default" : "default"} />
 
           {/* Desktop Navigation */}
@@ -89,9 +90,12 @@ const Navbar = () => {
               <Link
                 key={link.label}
                 to={link.href}
-                className={`nav-link font-medium transition-colors duration-200 ${
-                  isActive(link.href) ? "text-primary font-semibold" : "text-gray-700 hover:text-primary"
-                }`}
+                className={cn(
+                  "nav-link font-medium transition-colors duration-200",
+                  isActive(link.href) 
+                    ? "text-primary font-semibold" 
+                    : "text-gray-700 hover:text-primary"
+                )}
                 onClick={handleNavClick}
               >
                 {link.label}
@@ -116,16 +120,17 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Mobile Navigation */}
+        {/* Mobile Navigation - Higher z-index than header */}
         <div
           className={cn(
-            "md:hidden fixed inset-0 top-[72px] bg-white z-[99] transition-all duration-300 ease-in-out",
+            "md:hidden fixed inset-0 top-[72px] bg-white transition-all duration-300 ease-in-out",
+            "z-[51]", // Higher than header
             isOpen
               ? "opacity-100 translate-y-0 pointer-events-auto"
               : "opacity-0 translate-y-[-100%] pointer-events-none"
           )}
         >
-          <div className="container h-full px-4 mx-auto py-6 overflow-y-auto">
+          <div className="container h-[calc(100vh-72px)] px-4 mx-auto py-6 overflow-y-auto">
             <div className="space-y-6">
               {navLinks.map((link) => (
                 <Link
@@ -195,7 +200,7 @@ const Navbar = () => {
           </div>
         </div>
       </header>
-    </>
+    </div>
   );
 };
 
