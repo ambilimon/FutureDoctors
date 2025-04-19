@@ -119,23 +119,20 @@ const Navbar = () => {
         {/* Mobile Navigation */}
         <div
           className={cn(
-            "md:hidden fixed inset-0 top-[72px] bg-white z-[90] transition-transform duration-200 ease-out",
-            "will-change-transform transform-gpu", // Hardware acceleration
+            "md:hidden fixed inset-0 top-[72px] bg-white z-[99] transition-all duration-300 ease-in-out",
             isOpen
-              ? "translate-y-0"
-              : "translate-y-[-100%]",
-            "overflow-y-auto"
+              ? "opacity-100 translate-y-0 pointer-events-auto"
+              : "opacity-0 translate-y-[-100%] pointer-events-none"
           )}
         >
-          <div className="container px-4 mx-auto py-6">
-            <div className="space-y-4">
-              {/* Main Navigation Links */}
+          <div className="container h-full px-4 mx-auto py-6 overflow-y-auto">
+            <div className="space-y-6">
               {navLinks.map((link) => (
                 <Link
                   key={link.label}
                   to={link.href}
                   className={cn(
-                    "block text-lg font-medium transition-colors duration-200",
+                    "block text-lg font-medium transition-colors",
                     isActive(link.href)
                       ? "text-primary"
                       : "text-gray-700 hover:text-primary"
@@ -175,7 +172,7 @@ const Navbar = () => {
                     
                     {/* Countries organized by region */}
                     {Object.entries(countriesByRegion).map(([region, countries]) => (
-                      <div key={region} className="space-y-4 mb-6">
+                      <div key={region} className="space-y-4">
                         <h4 className="font-medium text-gray-500">{region}</h4>
                         <div className="space-y-4 pl-2">
                           {countries.map((country) => (
