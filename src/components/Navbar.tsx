@@ -74,15 +74,15 @@ const Navbar = () => {
       
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 w-full transition-all duration-200 ease-out backdrop-blur-sm",
-          scrolled
+          "fixed top-0 left-0 right-0 w-full transition-all duration-200 ease-out",
+          scrolled || isOpen
             ? "bg-white shadow-md"
-            : "bg-white/95",
-          "z-[50]" // Ensure navbar is above other content but below mobile menu
+            : "bg-white/95 backdrop-blur-sm",
+          "z-[50]"
         )}
       >
         <div className="container mx-auto px-4 h-[72px] flex justify-between items-center relative">
-          <Logo variant={scrolled ? "default" : "default"} />
+          <Logo variant={scrolled || isOpen ? "default" : "default"} />
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
@@ -105,10 +105,13 @@ const Navbar = () => {
             <CountryNavigation currentCountry={formattedCountry} />
           </nav>
 
-          {/* Mobile menu button */}
+          {/* Mobile menu button with improved contrast */}
           <button
             type="button"
-            className="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20"
+            className={cn(
+              "md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-primary/20",
+              isOpen ? "bg-gray-100" : "hover:bg-gray-100/50"
+            )}
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
           >
@@ -120,17 +123,17 @@ const Navbar = () => {
           </button>
         </div>
 
-        {/* Mobile Navigation - Higher z-index than header */}
+        {/* Mobile Navigation with solid background */}
         <div
           className={cn(
-            "md:hidden fixed inset-0 top-[72px] bg-white transition-all duration-300 ease-in-out",
-            "z-[51]", // Higher than header
+            "md:hidden fixed inset-0 top-[72px] bg-white/95 backdrop-blur-md shadow-lg transition-all duration-300 ease-in-out",
+            "z-[51]",
             isOpen
               ? "opacity-100 translate-y-0 pointer-events-auto"
               : "opacity-0 translate-y-[-100%] pointer-events-none"
           )}
         >
-          <div className="container h-[calc(100vh-72px)] px-4 mx-auto py-6 overflow-y-auto">
+          <div className="container h-[calc(100vh-72px)] px-4 mx-auto py-6 overflow-y-auto bg-white">
             <div className="space-y-6">
               {navLinks.map((link) => (
                 <Link
