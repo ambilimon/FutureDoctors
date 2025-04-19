@@ -16,39 +16,39 @@ import { PhoneCall, Globe, GraduationCap, Users, Building2, ChevronRight } from 
 const carouselUniversities = [
   {
     id: 1,
-    name: "Caspian International School of Medicine",
-    country: "Kazakhstan",
-    students: "6,000+",
-    established: "2005",
-    image: "/UNIVERSITY IMAGES/KAZAKHSTAN/CASPIAN.jpg",
-    description: "International medical school with modern teaching approach and clinical exposure"
+    name: "Altai State Medical University",
+    country: "Russia",
+    students: "8,000+",
+    established: "1954",
+    image: "/UNIVERSITY IMAGES/RUSSIA/ALTAI.jpg",
+    description: "Leading medical university in Siberian region with modern facilities"
   },
   {
     id: 2,
-    name: "Vitebsk State Medical University",
-    country: "Belarus",
-    students: "8,500+",
-    established: "1934",
-    image: "/UNIVERSITY IMAGES/BELARUS/VITEBSK.jpg",
-    description: "Renowned for excellence in medical education, research, and clinical training"
+    name: "Bashkir State Medical University",
+    country: "Russia",
+    students: "10,000+",
+    established: "1932",
+    image: "/UNIVERSITY IMAGES/RUSSIA/BASHKIR.jpg",
+    description: "One of Russia's oldest and most prestigious medical universities"
   },
   {
     id: 3,
-    name: "Georgian National University (SEU)",
-    country: "Georgia",
-    students: "8,000+",
-    established: "2001",
-    image: "/UNIVERSITY IMAGES/GEORGIA/SEU.jpg",
-    description: "Leading private university offering quality medical education with modern campus"
+    name: "Syktyvkar State University",
+    country: "Russia",
+    students: "7,000+",
+    established: "1972",
+    image: "/UNIVERSITY IMAGES/RUSSIA/SYKTYVKAR.jpg",
+    description: "Modern university with strong focus on medical education and research"
   },
   {
     id: 4,
-    name: "Orel State Medical University",
+    name: "South Ural State Medical University",
     country: "Russia",
-    students: "7,000+",
-    established: "1960",
-    image: "/UNIVERSITY IMAGES/RUSSIA/OREL.jpg",
-    description: "Known for quality medical education and comprehensive clinical training programs"
+    students: "9,000+",
+    established: "1944",
+    image: "/UNIVERSITY IMAGES/RUSSIA/SOUTHURAL.jpg",
+    description: "Renowned for quality medical education and clinical training"
   }
 ];
 
