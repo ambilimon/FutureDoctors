@@ -3,15 +3,17 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { ShimmerButton } from "@/components/ShimmerButton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Search, Grid3X3, ListFilter, LogOut } from "lucide-react";
+import { Plus, Search, Grid3X3, ListFilter, LogOut, Image as ImageIcon } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import UniversityForm from "@/components/UniversityForm";
 import UniversityList from "@/components/UniversityList";
+import GalleryUpload from "@/components/GalleryUpload";
 import { Input } from "@/components/ui/input";
 import { useSupabase } from "@/hooks/useSupabase";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
+import { GalleryItem } from "@/components/Gallery";
 
 const Dashboard = () => {
   const [showForm, setShowForm] = useState(false);
@@ -24,6 +26,8 @@ const Dashboard = () => {
   const [adminUser, setAdminUser] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showGalleryUpload, setShowGalleryUpload] = useState(false);
+  const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
 
   // Initialize sample data if none exists
   useEffect(() => {
@@ -105,6 +109,20 @@ const Dashboard = () => {
   // Determine the current user to display
   const currentUser = adminUser || user;
 
+  const handleGalleryUpload = (newItem: GalleryItem) => {
+    setGalleryItems(prev => [...prev, newItem]);
+    // Here you would typically save to your backend/database
+    localStorage.setItem('galleryItems', JSON.stringify([...galleryItems, newItem]));
+  };
+
+  // Load gallery items from localStorage on mount
+  useEffect(() => {
+    const storedItems = localStorage.getItem('galleryItems');
+    if (storedItems) {
+      setGalleryItems(JSON.parse(storedItems));
+    }
+  }, []);
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -160,6 +178,7 @@ const Dashboard = () => {
               onClick={() => {
                 setEditing(null);
                 setShowForm(true);
+                setShowGalleryUpload(false);
               }} 
               className="flex items-center gap-2"
               shimmerColor="rgba(59, 130, 246, 0.5)"
@@ -167,42 +186,23 @@ const Dashboard = () => {
             >
               <Plus size={18} /> Add University
             </ShimmerButton>
+            <ShimmerButton 
+              onClick={() => {
+                setShowForm(false);
+                setShowGalleryUpload(true);
+              }} 
+              className="flex items-center gap-2"
+              shimmerColor="rgba(59, 130, 246, 0.5)"
+              background="linear-gradient(45deg, #3b82f6, #1d4ed8)"
+            >
+              <ImageIcon size={18} /> Upload Gallery Image
+            </ShimmerButton>
           </div>
         </div>
 
-        {!showForm && (
-          <div className="flex flex-col md:flex-row gap-4 mb-6 items-center">
-            <div className="relative flex-grow">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
-              <Input
-                placeholder="Search universities..."
-                className="pl-10"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <div className="flex gap-2">
-              <ShimmerButton
-                onClick={() => setViewMode("grid")}
-                className={`p-2 ${viewMode === "grid" ? "opacity-100" : "opacity-60"}`}
-                shimmerColor="rgba(59, 130, 246, 0.5)"
-                background={viewMode === "grid" ? "linear-gradient(45deg, #3b82f6, #1d4ed8)" : "#6b7280"}
-              >
-                <Grid3X3 size={18} />
-              </ShimmerButton>
-              <ShimmerButton
-                onClick={() => setViewMode("list")}
-                className={`p-2 ${viewMode === "list" ? "opacity-100" : "opacity-60"}`}
-                shimmerColor="rgba(59, 130, 246, 0.5)"
-                background={viewMode === "list" ? "linear-gradient(45deg, #3b82f6, #1d4ed8)" : "#6b7280"}
-              >
-                <ListFilter size={18} />
-              </ShimmerButton>
-            </div>
-          </div>
-        )}
-
-        {showForm ? (
+        {showGalleryUpload ? (
+          <GalleryUpload onUpload={handleGalleryUpload} />
+        ) : showForm ? (
           <Card className="mb-8 border-blue-100 shadow-md">
             <CardHeader className="bg-blue-50 border-b border-blue-100">
               <CardTitle>{editing !== null ? 'Edit University' : 'Add New University'}</CardTitle>
@@ -228,14 +228,45 @@ const Dashboard = () => {
             </CardContent>
           </Card>
         ) : (
-          <UniversityList 
-            onEdit={(id) => {
-              setEditing(id);
-              setShowForm(true);
-            }}
-            searchQuery={searchQuery}
-            viewMode={viewMode}
-          />
+          <>
+            <div className="flex flex-col md:flex-row gap-4 mb-6 items-center">
+              <div className="relative flex-grow">
+                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                <Input
+                  placeholder="Search universities..."
+                  className="pl-10"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+              </div>
+              <div className="flex gap-2">
+                <ShimmerButton
+                  onClick={() => setViewMode("grid")}
+                  className={`p-2 ${viewMode === "grid" ? "opacity-100" : "opacity-60"}`}
+                  shimmerColor="rgba(59, 130, 246, 0.5)"
+                  background={viewMode === "grid" ? "linear-gradient(45deg, #3b82f6, #1d4ed8)" : "#6b7280"}
+                >
+                  <Grid3X3 size={18} />
+                </ShimmerButton>
+                <ShimmerButton
+                  onClick={() => setViewMode("list")}
+                  className={`p-2 ${viewMode === "list" ? "opacity-100" : "opacity-60"}`}
+                  shimmerColor="rgba(59, 130, 246, 0.5)"
+                  background={viewMode === "list" ? "linear-gradient(45deg, #3b82f6, #1d4ed8)" : "#6b7280"}
+                >
+                  <ListFilter size={18} />
+                </ShimmerButton>
+              </div>
+            </div>
+            <UniversityList 
+              onEdit={(id) => {
+                setEditing(id);
+                setShowForm(true);
+              }}
+              searchQuery={searchQuery}
+              viewMode={viewMode}
+            />
+          </>
         )}
       </main>
       
