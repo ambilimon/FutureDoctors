@@ -13,7 +13,59 @@ import { toast } from "@/components/ui/use-toast";
 import { useQuery } from "@tanstack/react-query";
 import { universities } from "@/data/universities";
 import { University } from "@/types/university";
-import { Link } from "react-router-dom";
+import Gallery, { GalleryItem } from "@/components/Gallery";
+
+// Sample gallery items - replace with your actual content
+const galleryItems: GalleryItem[] = [
+  {
+    id: "1",
+    type: "image" as const,
+    thumbnail: "/images/gallery/university-campus-1.jpg",
+    fullSize: "/images/gallery/university-campus-1-full.jpg",
+    title: "University Campus Tour",
+    description: "Explore our state-of-the-art medical facilities",
+  },
+  {
+    id: "2",
+    type: "video" as const,
+    thumbnail: "/images/gallery/student-life-thumbnail.jpg",
+    videoUrl: "https://www.youtube.com/embed/your-video-id",
+    title: "Student Life Experience",
+    description: "A day in the life of our medical students",
+  },
+  {
+    id: "3",
+    type: "image" as const,
+    thumbnail: "/images/gallery/lab-facilities.jpg",
+    fullSize: "/images/gallery/lab-facilities-full.jpg",
+    title: "Modern Laboratory Facilities",
+    description: "Advanced equipment for practical learning",
+  },
+  {
+    id: "4",
+    type: "video" as const,
+    thumbnail: "/images/gallery/graduation-thumbnail.jpg",
+    videoUrl: "https://www.youtube.com/embed/your-video-id",
+    title: "Graduation Ceremony",
+    description: "Celebrating our successful graduates",
+  },
+  {
+    id: "5",
+    type: "image" as const,
+    thumbnail: "/images/gallery/clinical-training.jpg",
+    fullSize: "/images/gallery/clinical-training-full.jpg",
+    title: "Clinical Training",
+    description: "Hands-on experience in hospital settings",
+  },
+  {
+    id: "6",
+    type: "image" as const,
+    thumbnail: "/images/gallery/student-accommodation.jpg",
+    fullSize: "/images/gallery/student-accommodation-full.jpg",
+    title: "Student Accommodation",
+    description: "Comfortable living spaces for students",
+  },
+];
 
 const Index = () => {
   // Fetch universities data with retry logic and fallback
@@ -96,6 +148,7 @@ const Index = () => {
         <HeroSection />
         <WhyMBBSAbroad />
         <UniversitySection universities={(universitiesData || universities) as University[]} />
+        <Gallery items={galleryItems} isHomePage={true} />
         <FeaturedUniversity />
         <ApplicationSection />
         <WebinarPromoSection />

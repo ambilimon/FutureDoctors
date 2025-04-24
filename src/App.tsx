@@ -45,6 +45,7 @@ import SuccessStoriesPage from './pages/SuccessStoriesPage';
 import BlogNewsPage from './pages/BlogNewsPage';
 import ApplyNowPage from './pages/ApplyNowPage';
 import UniversityDetailsPage from './pages/UniversityDetailsPage';
+import Gallery from './pages/Gallery';
 import ProtectedRoute from './components/ProtectedRoute';
 
 // Create a client
@@ -108,6 +109,7 @@ const App = () => (
           <Route path="/blog-news" element={<BlogNewsPage />} />
           <Route path="/apply-now" element={<ApplyNowPage />} />
           <Route path="/university-details/:id" element={<UniversityDetailsPage />} />
+          <Route path="/gallery" element={<Gallery />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
