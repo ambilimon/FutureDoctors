@@ -47,6 +47,7 @@ import ApplyNowPage from './pages/ApplyNowPage';
 import UniversityDetailsPage from './pages/UniversityDetailsPage';
 import Gallery from './pages/Gallery';
 import ProtectedRoute from './components/ProtectedRoute';
+import WhatsAppButton from './components/WhatsAppButton';
 
 // Create a client
 const queryClient = new QueryClient();
@@ -113,6 +114,9 @@ const App = () => (
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        
+        {/* WhatsApp Button - visible on all pages */}
+        <WhatsAppButton phoneNumber="919846559675" />
       </div>
     </BrowserRouter>
   </QueryClientProvider>
