@@ -10,8 +10,9 @@
     "start": "npx vite",
     "dev": "npx vite",
     "clean": "rimraf dist",
-    "prebuild": "npm install --force && npm run clean",
+    "prebuild": "npm run clean",
     "build": "tsc --project tsconfig.production.json && vite build",
+    "vercel-build": "npm install && npm run build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview"
