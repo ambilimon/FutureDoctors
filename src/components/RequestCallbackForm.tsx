@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useToast } from "@/components/ui/use-toast";
 import { ShimmerButton } from "@/components/ShimmerButton";
+import { submitToGoogleSheets } from "@/lib/googleSheets";
 import {
   Form,
   FormControl,
@@ -67,7 +68,7 @@ const RequestCallbackForm = ({
       };
       
       // Submit to Google Sheets
-      const sheetsResult = await submitToGoogleSheets(callbackData, 'callback');
+      await submitToGoogleSheets(callbackData, 'callback');
       
       // Store in localStorage as backup
       const callbacks = JSON.parse(localStorage.getItem("callbackRequests") || "[]");

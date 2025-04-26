@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useToast } from "@/components/ui/use-toast";
 import { ShimmerButton } from "@/components/ShimmerButton";
+import { submitToGoogleSheets } from "@/lib/googleSheets";
 import {
   Form,
   FormControl,
@@ -25,9 +26,13 @@ type WebinarSignupFormValues = z.infer<typeof formSchema>;
 
 interface WebinarSignupFormProps {
   onSuccess: () => void;
+  webinar: {
+    id: string;
+    title: string;
+  };
 }
 
-const WebinarSignupForm = ({ onSuccess }: WebinarSignupFormProps) => {
+const WebinarSignupForm = ({ onSuccess, webinar }: WebinarSignupFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
@@ -54,7 +59,7 @@ const WebinarSignupForm = ({ onSuccess }: WebinarSignupFormProps) => {
       };
 
       // Submit to Google Sheets
-      const sheetsResult = await submitToGoogleSheets(signupData, 'webinar');
+      await submitToGoogleSheets(signupData, 'webinar');
 
       // Store in localStorage as backup
       const registrations = JSON.parse(localStorage.getItem("webinarRegistrations") || "[]");

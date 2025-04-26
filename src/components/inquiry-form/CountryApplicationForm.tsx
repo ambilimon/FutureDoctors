@@ -15,6 +15,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { submitToGoogleSheets } from "@/lib/googleSheets";
 
 const formSchema = z.object({
   fullName: z.string().min(2, "Please enter your full name"),
@@ -33,7 +34,7 @@ interface CountryApplicationFormProps {
   universityId?: string | number;
 }
 
-export default function CountryApplicationForm({ countryName, sticky = false, universityId }: CountryApplicationFormProps) {
+export default function CountryApplicationForm({ countryName = "Abroad", sticky = false, universityId }: CountryApplicationFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<FormValues>({
@@ -57,11 +58,11 @@ export default function CountryApplicationForm({ countryName, sticky = false, un
         timestamp: new Date().toISOString(),
         status: "pending",
         countryName,
-        universityId,
+        universityId: universityId?.toString(),
       };
 
       // Submit to Google Sheets
-      const sheetsResult = await submitToGoogleSheets(applicationData, 'application');
+      await submitToGoogleSheets(applicationData, 'application');
 
       // Store in localStorage as backup
       const inquiries = JSON.parse(localStorage.getItem("inquiries") || "[]");

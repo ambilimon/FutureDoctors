@@ -12,7 +12,7 @@ import { Button } from "../ui/button";
 import { useInquiryForm } from "./useInquiryForm";
 
 export function StudentInquiryForm() {
-  const { form, isLoading, onSubmit } = useInquiryForm();
+  const { form, isSubmitting, onSubmit } = useInquiryForm({});
 
   return (
     <Form {...form}>
@@ -104,10 +104,10 @@ export function StudentInquiryForm() {
         <Button 
           type="submit" 
           className="w-full"
-          disabled={isLoading}
+          disabled={isSubmitting}
           aria-live="polite"
         >
-          {isLoading ? "Sending..." : "Send Inquiry"}
+          {isSubmitting ? "Sending..." : "Send Inquiry"}
         </Button>
       </form>
     </Form>

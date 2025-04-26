@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ShimmerButton } from "@/components/ShimmerButton";
@@ -137,10 +136,16 @@ const WebinarPromoSection = () => {
               Complete this form to access our exclusive MBBS abroad webinar.
             </DialogDescription>
           </DialogHeader>
-          <WebinarSignupForm onSuccess={() => {
-            setIsDialogOpen(false);
-            navigate("/webinar");
-          }} />
+          <WebinarSignupForm 
+            webinar={{
+              id: "webinar-2025-04-15",
+              title: "Everything You Need to Know About MBBS Abroad"
+            }}
+            onSuccess={() => {
+              setIsDialogOpen(false);
+              navigate("/webinar");
+            }} 
+          />
         </DialogContent>
       </Dialog>
     </section>

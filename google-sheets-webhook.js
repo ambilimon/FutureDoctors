@@ -1,7 +1,7 @@
 // Google Apps Script code to handle form submissions
 // Deploy this as a Web App in Google Apps Script
 
-const SPREADSHEET_ID = ''; // Add your Google Sheets ID here
+const SPREADSHEET_ID = '1h-YsHlM393laolw-BlH-TNDda5iDEl83ZSpqUmn79tg'; // Add your Google Sheets ID here
 const SHEET_NAMES = {
   inquiry: 'Student Inquiries',
   callback: 'Callback Requests',
