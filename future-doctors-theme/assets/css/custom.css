@@ -1,0 +1,203 @@
+/* Custom styles to match Future Doctors Education website */
+:root {
+    --primary-color: #0066CC;
+    --secondary-color: #4A90E2;
+    --background-color: #F5F7FA;
+    --text-color: #2C3E50;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --hover-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Header Styles */
+.site-header {
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    top: 0;
+}
+
+.site-nav-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.site-nav-content a {
+    color: var(--text-color);
+    font-weight: 500;
+    text-decoration: none;
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.site-nav-content a:hover {
+    color: var(--primary-color);
+    background-color: rgba(0, 102, 204, 0.1);
+}
+
+.site-nav-logo img {
+    height: 40px;
+    margin: 0.5rem 0;
+}
+
+/* Main Content Styles */
+.site-main {
+    background-color: var(--background-color);
+    padding-top: 80px;
+    min-height: calc(100vh - 60px);
+}
+
+/* Post Card Styles */
+.post-feed {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.post-card {
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+}
+
+.post-card-image-link {
+    display: block;
+    overflow: hidden;
+    height: 200px;
+}
+
+.post-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-card-image {
+    transform: scale(1.05);
+}
+
+.post-card-content {
+    padding: 1.5rem;
+}
+
+.post-card-title {
+    color: var(--text-color);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+.post-card-excerpt {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+}
+
+.post-card-meta {
+    font-size: 0.875rem;
+    color: #888;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+/* Button Styles */
+.button {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+/* Footer Styles */
+.site-footer {
+    background-color: #ffffff;
+    padding: 3rem 0;
+    border-top: 1px solid #eee;
+}
+
+.site-footer-nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+}
+
+.site-footer-nav a {
+    color: var(--text-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.site-footer-nav a:hover {
+    color: var(--primary-color);
+}
+
+.copyright {
+    text-align: center;
+    color: #666;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .site-nav-content {
+        flex-direction: column;
+        padding: 1rem 0;
+    }
+
+    .post-feed {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .site-footer-nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+}
+
+/* Featured Posts Section */
+.featured-posts {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    padding: 4rem 2rem;
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.featured-posts h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.featured-posts p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+} 

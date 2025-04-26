@@ -12,11 +12,15 @@ const Logo = ({ className = "", variant = 'default', showTagline = true }: LogoP
     variant === 'dark' ? 'text-gray-600' : 
     'text-blue-500';
 
+  const logoSrc = variant === 'light' 
+    ? "/FOOTER/LOGO WHITE FONT.png"
+    : "/Logo.png";
+
   return (
     <Link to="/" className={`inline-block ${className}`}>
       <div className="flex items-center">
         <img 
-          src="/Logo.png" 
+          src={logoSrc}
           alt="Future Doctor Logo" 
           className="h-14 w-auto"
         />

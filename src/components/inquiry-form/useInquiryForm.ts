@@ -4,6 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { supabase } from "@/lib/supabase";
+import { saveStudentInquiry } from "@/lib/database";
+import { inquiryFormSchema, StudentInquiryFormValues, StudentInquiryFormProps } from "./types";
+import { submitToGoogleSheets, StudentInquiryData } from "@/lib/googleSheets";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -17,62 +21,100 @@ const formSchema = z.object({
 
 export type InquiryFormData = z.infer<typeof formSchema>;
 
-export function useInquiryForm() {
-  const [isLoading, setIsLoading] = useState(false);
+export const useInquiryForm = ({ universityId, onSuccess }: StudentInquiryFormProps) => {
   const { toast } = useToast();
-  const navigate = useNavigate();
-
-  const form = useForm<InquiryFormData>({
-    resolver: zodResolver(formSchema),
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Setup form with Zod validation
+  const form = useForm<StudentInquiryFormValues>({
+    resolver: zodResolver(inquiryFormSchema),
     defaultValues: {
       name: "",
-      email: "",
       phone: "",
-      lastAttendedCollege: "",
+      email: "",
+      preferredCountries: [],
       message: "",
     },
   });
 
-  const onSubmit = async (data: InquiryFormData) => {
-    if (isLoading) return;
+  const onSubmit = async (values: StudentInquiryFormValues) => {
+    setIsSubmitting(true);
     
-    setIsLoading(true);
     try {
-      // Store the inquiry in localStorage for now
-      const inquiries = JSON.parse(localStorage.getItem("inquiries") || "[]");
-      inquiries.push({
-        ...data,
-        submittedAt: new Date().toISOString(),
-        status: "new"
-      });
-      localStorage.setItem("inquiries", JSON.stringify(inquiries));
+      // Save to Supabase
+      const inquiryData = {
+        ...values,
+        timestamp: new Date().toISOString(),
+        status: 'new',
+      };
       
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Submit to both Supabase and Google Sheets
+      const [supabaseResult, sheetsResult] = await Promise.all([
+        saveStudentInquiry(inquiryData),
+        submitToGoogleSheets(inquiryData as StudentInquiryData, 'inquiry')
+      ]);
+      
+      if (!supabaseResult.success) {
+        throw supabaseResult.error;
+      }
       
       toast({
-        title: "Success!",
-        description: "Your inquiry has been submitted. We'll contact you soon.",
-        variant: "default",
+        title: "Inquiry Submitted!",
+        description: "We'll contact you shortly about your application.",
       });
       
+      // Reset form
       form.reset();
-      navigate("/thank-you");
-    } catch (error) {
-      console.error("[MBBS Abroad] Inquiry form submission error:", error);
-      toast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
+      
+      if (onSuccess) {
+        onSuccess();
+      }
+    } catch (e) {
+      console.error("Error saving inquiry", e);
+      
+      // Fallback to localStorage and still try Google Sheets
+      try {
+        const inquiries = JSON.parse(localStorage.getItem('inquiries') || '[]');
+        const inquiryData = {
+          ...values,
+          timestamp: new Date().toISOString(),
+          status: 'new',
+          id: Date.now()
+        };
+        
+        inquiries.push(inquiryData);
+        localStorage.setItem('inquiries', JSON.stringify(inquiries));
+        
+        // Try submitting to Google Sheets even if Supabase failed
+        await submitToGoogleSheets(inquiryData as StudentInquiryData, 'inquiry');
+        
+        toast({
+          title: "Inquiry Submitted!",
+          description: "We'll contact you shortly about your application.",
+        });
+        
+        // Reset form
+        form.reset();
+        
+        if (onSuccess) {
+          onSuccess();
+        }
+      } catch (e) {
+        console.error("Error saving inquiry to fallback storage", e);
+        toast({
+          title: "Error",
+          description: "There was a problem submitting your inquiry.",
+          variant: "destructive",
+        });
+      }
     } finally {
-      setIsLoading(false);
+      setIsSubmitting(false);
     }
   };
 
   return {
     form,
-    isLoading,
-    onSubmit,
+    isSubmitting,
+    onSubmit
   };
-}
+};

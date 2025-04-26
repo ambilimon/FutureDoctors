@@ -51,20 +51,22 @@ export default function CountryApplicationForm({ countryName, sticky = false, un
   async function onSubmit(data: FormValues) {
     setIsSubmitting(true);
     try {
-      // Store inquiry in localStorage for now
-      const inquiries = JSON.parse(localStorage.getItem("inquiries") || "[]");
-      const newInquiry = {
+      // Prepare application data
+      const applicationData = {
         ...data,
         timestamp: new Date().toISOString(),
         status: "pending",
         countryName,
         universityId,
       };
-      inquiries.push(newInquiry);
-      localStorage.setItem("inquiries", JSON.stringify(inquiries));
 
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      // Submit to Google Sheets
+      const sheetsResult = await submitToGoogleSheets(applicationData, 'application');
+
+      // Store in localStorage as backup
+      const inquiries = JSON.parse(localStorage.getItem("inquiries") || "[]");
+      inquiries.push(applicationData);
+      localStorage.setItem("inquiries", JSON.stringify(inquiries));
 
       toast.success("Application submitted successfully! We'll contact you soon.");
       form.reset();

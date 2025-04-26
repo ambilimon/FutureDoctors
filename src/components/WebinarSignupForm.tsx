@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -45,30 +44,37 @@ const WebinarSignupForm = ({ onSuccess }: WebinarSignupFormProps) => {
     setIsSubmitting(true);
     
     try {
-      // Store webinar participant data in localStorage
-      const webinarData = {
+      // Prepare webinar signup data
+      const signupData = {
         ...values,
-        registeredAt: new Date().toISOString(),
-        hasWatched: false,
+        webinarId: webinar.id,
+        webinarTitle: webinar.title,
+        timestamp: new Date().toISOString(),
+        status: "registered"
       };
-      
-      // Store in localStorage
-      const participants = JSON.parse(localStorage.getItem("webinarParticipants") || "[]");
-      participants.push(webinarData);
-      localStorage.setItem("webinarParticipants", JSON.stringify(participants));
+
+      // Submit to Google Sheets
+      const sheetsResult = await submitToGoogleSheets(signupData, 'webinar');
+
+      // Store in localStorage as backup
+      const registrations = JSON.parse(localStorage.getItem("webinarRegistrations") || "[]");
+      registrations.push(signupData);
+      localStorage.setItem("webinarRegistrations", JSON.stringify(registrations));
       
       toast({
         title: "Registration Successful!",
-        description: "You can now access the webinar.",
+        description: "You've been registered for the webinar. Check your email for details.",
       });
       
       form.reset();
-      onSuccess();
-    } catch (e) {
-      console.error("Error registering for webinar", e);
+      if (onSuccess) {
+        onSuccess();
+      }
+    } catch (error) {
+      console.error("Error registering for webinar:", error);
       toast({
         title: "Registration Failed",
-        description: "There was a problem with your registration. Please try again.",
+        description: "There was a problem registering you for the webinar. Please try again.",
         variant: "destructive",
       });
     } finally {

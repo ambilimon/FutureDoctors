@@ -58,15 +58,18 @@ const RequestCallbackForm = ({
     setIsSubmitting(true);
     
     try {
-      // Store callback request in localStorage
+      // Prepare callback data
       const callbackData = {
         ...values,
         requestType: formType,
-        requestedAt: new Date().toISOString(),
+        timestamp: new Date().toISOString(),
         status: "new"
       };
       
-      // Store in localStorage
+      // Submit to Google Sheets
+      const sheetsResult = await submitToGoogleSheets(callbackData, 'callback');
+      
+      // Store in localStorage as backup
       const callbacks = JSON.parse(localStorage.getItem("callbackRequests") || "[]");
       callbacks.push(callbackData);
       localStorage.setItem("callbackRequests", JSON.stringify(callbacks));
