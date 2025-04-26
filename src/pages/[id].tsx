@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useParams, useNavigate } from "react-router-dom";
 import { getUniversityById } from "@/data/universities";
 import { University } from "@/data/universities";
 import { Button } from "@/components/ui/button";
@@ -11,20 +11,19 @@ import CountryApplicationForm from "@/components/inquiry-form/CountryApplication
 import { AlertTriangle } from "lucide-react";
 
 const UniversityDetailPage = () => {
-  const router = useRouter();
-  const { id } = router.query;
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [university, setUniversity] = useState<University | null>(null);
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
     if (id) {
-      const uniId = Array.isArray(id) ? id[0] : id;
-      const foundUniversity = getUniversityById(uniId);
+      const foundUniversity = getUniversityById(id);
       
       if (foundUniversity) {
         setUniversity(foundUniversity);
       } else {
-        console.warn(`University with ID ${uniId} not found`);
+        console.warn(`University with ID ${id} not found`);
       }
       
       setLoading(false);
@@ -53,10 +52,10 @@ const UniversityDetailPage = () => {
             <h1 className="text-3xl font-bold mb-4">University Not Found</h1>
             <p className="text-gray-600 mb-8">We couldn't find the university you're looking for.</p>
             <div className="space-y-3">
-              <Button className="w-full" onClick={() => router.push('/universities')}>
+              <Button className="w-full" onClick={() => navigate('/universities')}>
                 View All Universities
               </Button>
-              <Button variant="outline" className="w-full" onClick={() => router.back()}>
+              <Button variant="outline" className="w-full" onClick={() => navigate(-1)}>
                 Go Back
               </Button>
             </div>
@@ -77,7 +76,7 @@ const UniversityDetailPage = () => {
           <Button
             variant="ghost"
             className="flex items-center text-primary"
-            onClick={() => router.back()}
+            onClick={() => navigate(-1)}
           >
             <ChevronLeft className="mr-1 h-4 w-4" />
             Back

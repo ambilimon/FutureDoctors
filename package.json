@@ -9,11 +9,11 @@
   "scripts": {
     "start": "npx vite",
     "dev": "npx vite",
-    "build": "npm install && tsc --project tsconfig.production.json && vite build",
+    "clean": "if exist dist rmdir /s /q dist",
+    "build": "npm install --force && npm run clean && tsc --project tsconfig.production.json && vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "postinstall": "npm run build"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
